@@ -12,7 +12,11 @@ export function generateStaticParams() {
   return getNoteSlugs().map((slug) => ({ slug }));
 }
 
-export async function generateMetadata({ params }: PageProps<"/notes/[slug]">) {
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const note = getNoteBySlug(slug);
   if (!note) {
@@ -21,7 +25,7 @@ export async function generateMetadata({ params }: PageProps<"/notes/[slug]">) {
   return pageMetadata(note.title, note.summary, `/notes/${note.slug}`);
 }
 
-export default async function NotePage({ params }: PageProps<"/notes/[slug]">) {
+export default async function NotePage({ params }: Props) {
   const { slug } = await params;
   const note = getNoteBySlug(slug);
   if (!note) {

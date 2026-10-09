@@ -15,9 +15,11 @@ export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: PageProps<"/projects/[slug]">) {
+type Props = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) {
@@ -35,9 +37,7 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-export default async function ProjectDetailPage({
-  params,
-}: PageProps<"/projects/[slug]">) {
+export default async function ProjectDetailPage({ params }: Props) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) {
