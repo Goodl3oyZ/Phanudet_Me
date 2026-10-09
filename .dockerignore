@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.github
+e2e
+playwright-report
+test-results
+coverage
+.env
+.env.local
+Dockerfile
+compose.yaml
+.pnpm-store
+AGENTS.md

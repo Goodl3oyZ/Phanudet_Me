@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 12.10.1
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit tests
+        run: pnpm test
+
+      - name: Production build
+        run: pnpm build
+
+      - name: Install Playwright browser
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: End-to-end tests
+        run: pnpm test:e2e
+        env:
+          CI: true
+
+  image:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      REGISTRY: ${{ secrets.CONTAINER_REGISTRY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Skip when no registry is configured
+        if: env.REGISTRY == ''
+        run: echo "No CONTAINER_REGISTRY secret. Image publish is skipped."
+
+      - name: Log in to container registry
+        if: env.REGISTRY != ''
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.CONTAINER_REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build image
+        if: env.REGISTRY != ''
+        run: |
+          docker build \
+            --build-arg SITE_URL="${{ secrets.SITE_URL }}" \
+            -t "${{ secrets.CONTAINER_REGISTRY }}/phanudet-dev:${{ github.sha }}" \
+            .
+
+      - name: Push image
+        if: env.REGISTRY != ''
+        run: docker push "${{ secrets.CONTAINER_REGISTRY }}/phanudet-dev:${{ github.sha }}"
