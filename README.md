@@ -112,46 +112,106 @@ Image publish is a separate job on `main` only. It runs if `CONTAINER_REGISTRY`,
 
 ## Linux deployment procedure
 
-1. Build and tag an image (`phanudet-dev:<git-sha>`).
-2. Copy `compose.yaml` to the host (or pull the image from your registry).
-3. Set `IMAGE_TAG` to that SHA.
-4. `docker compose up -d`
-5. Place a reverse proxy in front of `127.0.0.1:3000`.
-6. Confirm `GET /healthz` returns `{"status":"ok"}`.
+### 1. Clone repository on server
+```bash
+git clone https://github.com/Goodl3oyZ/Phanudet_Me.git
+cd Phanudet_Me
+```
 
-Do not publish PostgreSQL, Redis, Proxmox, or other lab ports with this site. This app has no database.
+### 2. Configure Environment (`.env`)
+Create a `.env` file on the server:
+```bash
+cat << 'EOF' > .env
+# Public domain URL (without trailing slash)
+SITE_URL=https://phanudet.dev
 
-## Reverse proxy or tunnel
+# Custom server port (optional, defaults to 3000 if unset)
+PORT=3000
+EOF
+```
 
-Terminate TLS at Caddy, Nginx, Traefik, or a tunnel of your choice. Forward HTTP to `127.0.0.1:3000`. Example Nginx location:
+### 3. Build & Start with Docker Compose
+```bash
+docker compose up -d --build
+```
+
+---
+
+## Cloudflare Tunnel Setup (Recommended for Zero Trust & Automatic SSL)
+
+Using Cloudflare Tunnel (`cloudflared`) connects your container directly to your domain without exposing public server ports.
+
+### Option A: Cloudflare Dashboard (Named Tunnel)
+1. Go to **Cloudflare Zero Trust Dashboard** → **Networks** → **Tunnels**.
+2. Click **Create a Tunnel** (e.g. name: `portfolio-tunnel`).
+3. Run the provided `cloudflared service install <token>` command on your Linux server.
+4. In Cloudflare Tunnel settings, add a Public Hostname:
+   - **Subdomain/Domain**: `phanudet.dev` (or your domain)
+   - **Type**: `HTTP`
+   - **URL**: `127.0.0.1:3000` (or `127.0.0.1:${PORT}`)
+
+### Option B: Cloudflare CLI (`cloudflared`)
+```bash
+# 1. Install cloudflared CLI
+curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+sudo dpkg -i cloudflared.deb
+
+# 2. Login to Cloudflare
+cloudflared tunnel login
+
+# 3. Create Tunnel
+cloudflared tunnel create portfolio
+
+# 4. Route DNS domain to tunnel
+cloudflared tunnel route dns portfolio phanudet.dev
+
+# 5. Run tunnel forwarding to container port
+cloudflared tunnel run --url http://127.0.0.1:3000 portfolio
+```
+
+---
+
+## Nginx / Reverse Proxy Setup (Alternative)
+
+If using traditional Nginx reverse proxy with Cloudflare DNS (Proxied `Orange Cloud` mode):
 
 ```nginx
-location / {
-  proxy_pass http://127.0.0.1:3000;
-  proxy_set_header Host $host;
-  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  proxy_set_header X-Forwarded-Proto $scheme;
+server {
+    server_name phanudet.dev;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000; # Or your custom $PORT
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }
 ```
 
-Rebuild with `SITE_URL` set to the public `https://` origin so canonical tags and the sitemap match the proxy hostname.
+---
 
-## Health verification
+## Health Verification
+
+Verify that your container and service respond correctly:
 
 ```bash
+# Verify healthz endpoint (returns {"status":"ok"})
 curl -fsS http://127.0.0.1:3000/healthz
+
+# Verify HTTP status code (returns 200)
 curl -fsS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:3000/
 ```
 
-Compose uses the same `/healthz` check.
+Compose automatically uses the same dynamic `/healthz` check.
 
 ## Rollback procedure
 
-Keep the previous image tag. To roll back:
+Keep previous image tags or Git commits. To roll back:
 
 ```bash
-export IMAGE_TAG=<previous-sha>
-docker compose up -d
+git checkout <previous-commit-sha>
+docker compose up -d --build
 curl -fsS http://127.0.0.1:3000/healthz
 ```
 
