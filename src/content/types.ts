@@ -61,6 +61,21 @@ export type ProjectImage = {
   caption?: string;
 };
 
+export type Metric = {
+  value: string;
+  label: string;
+};
+
+export type FlowStep = {
+  title: string;
+  body: string;
+};
+
+export type KnowledgeArea = {
+  area: string;
+  items: string[];
+};
+
 export type Decision = {
   title: string;
   body: string;
@@ -92,6 +107,14 @@ export type Project = {
   liveUrl?: string;
   /** Screenshots; the first one is the cover on cards and the case study. */
   images?: ProjectImage[];
+  /** Measured results shown as a stat strip. */
+  metrics?: Metric[];
+  /** How one request moves through the system, step by step. */
+  flow?: FlowStep[];
+  /** Knowledge and skills the project applied, grouped by area. */
+  knowledge?: KnowledgeArea[];
+  /** A hand-drawn diagram used instead of the generic layered one. */
+  customDiagram?: "voice-pc-remote";
 };
 
 export type LabExperiment = {

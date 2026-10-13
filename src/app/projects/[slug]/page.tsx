@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArchitectureDiagram } from "@/components/diagrams/ArchitectureDiagram";
+import { VoicePcDiagram } from "@/components/diagrams/VoicePcDiagram";
 import { EvidencePanel } from "@/components/project/EvidencePanel";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { ProjectMetadata } from "@/components/project/ProjectMetadata";
@@ -85,6 +86,17 @@ export default async function ProjectDetailPage({ params }: Props) {
           <p>{project.overview}</p>
         </Block>
 
+        {project.metrics?.length ? (
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {project.metrics.map((metric) => (
+              <li key={metric.label} className="rounded-2xl border border-line bg-surface p-4">
+                <p className="text-2xl font-semibold tracking-tight">{metric.value}</p>
+                <p className="mt-1 text-xs leading-5 text-ink-muted">{metric.label}</p>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+
         {gallery.length > 0 ? (
           <Block title="Screenshots">
             <ul className="grid gap-6">
@@ -140,9 +152,29 @@ export default async function ProjectDetailPage({ params }: Props) {
           </Block>
         ) : null}
 
-        {project.architecture ? (
+        {project.customDiagram === "voice-pc-remote" ? (
+          <Block title="Architecture">
+            <VoicePcDiagram />
+          </Block>
+        ) : project.architecture ? (
           <Block title="Architecture">
             <ArchitectureDiagram architecture={project.architecture} />
+          </Block>
+        ) : null}
+
+        {project.flow?.length ? (
+          <Block title="How one command runs">
+            <ol className="relative space-y-5 border-l border-line pl-6">
+              {project.flow.map((step, i) => (
+                <li key={step.title} className="relative">
+                  <span className="absolute -left-[2.15rem] top-0 flex h-7 w-7 items-center justify-center rounded-full border border-line bg-background font-mono text-xs font-semibold text-accent">
+                    {i + 1}
+                  </span>
+                  <p className="font-semibold">{step.title}</p>
+                  <p className="mt-1 text-ink-muted">{step.body}</p>
+                </li>
+              ))}
+            </ol>
           </Block>
         ) : null}
 
@@ -151,6 +183,26 @@ export default async function ProjectDetailPage({ params }: Props) {
             <ul className="list-disc space-y-2 pl-5">
               {project.implementation.map((item) => (
                 <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </Block>
+        ) : null}
+
+        {project.knowledge?.length ? (
+          <Block title="Knowledge applied">
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {project.knowledge.map((group) => (
+                <li key={group.area} className="rounded-2xl border border-line bg-background p-5">
+                  <p className="font-mono text-xs uppercase tracking-[0.12em] text-accent">{group.area}</p>
+                  <ul className="mt-3 space-y-2 text-sm leading-6 text-ink-muted">
+                    {group.items.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-ink-muted" aria-hidden />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
               ))}
             </ul>
           </Block>

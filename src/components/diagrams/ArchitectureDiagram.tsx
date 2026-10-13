@@ -13,6 +13,7 @@ import {
   RefreshCw,
   Server,
   Sliders,
+  Smartphone,
   Sparkles,
   Terminal,
   Zap,
@@ -22,6 +23,8 @@ function RenderIcon({ name, className = "h-4 w-4" }: { name?: string; className?
   switch (name) {
     case "Globe":
       return <Globe className={className} />;
+    case "Smartphone":
+      return <Smartphone className={className} />;
     case "Server":
       return <Server className={className} />;
     case "Database":
@@ -200,7 +203,7 @@ function EcommerceDiagramSVG({ architecture }: { architecture: Architecture }) {
       role="img"
       aria-label={architecture.caption}
       viewBox="0 0 840 460"
-      className="h-auto w-full min-w-[48rem] max-w-none font-sans"
+      className="h-auto w-full min-w-[40rem] max-w-none font-sans"
     >
       <defs>
         <marker
@@ -557,7 +560,7 @@ function GenericLayeredDiagramSVG({ architecture }: { architecture: Architecture
       role="img"
       aria-label={architecture.caption}
       viewBox={`0 0 840 ${totalHeight}`}
-      className="h-auto w-full min-w-[44rem] max-w-none font-sans"
+      className="h-auto w-full min-w-[40rem] max-w-none font-sans"
     >
       <defs>
         <marker
