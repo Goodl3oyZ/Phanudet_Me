@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
@@ -19,16 +20,43 @@ export default function HomePage() {
   return (
     <>
       <Section>
-        <p className="font-mono text-xs uppercase tracking-[0.16em] text-ink-muted">
-          Computer Engineering · {site.location}
-        </p>
-        <h1 className="mt-4 max-w-[18ch] text-[2.75rem] font-semibold leading-[1.08] tracking-tight md:text-[4rem]">
-          {site.tagline}
-        </h1>
-        <p className="mt-6 max-w-[42rem] text-lg text-ink-muted">{site.heroSupport}</p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <PrimaryButton href="/projects">Explore Projects</PrimaryButton>
-          <SecondaryButton href="/resume">View Résumé</SecondaryButton>
+        <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:gap-14">
+          <div>
+            <p className="inline-flex items-center gap-2 rounded-full border border-line bg-background px-3 py-1 text-xs font-medium text-ink">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden />
+              {site.availability}
+            </p>
+            <p className="mt-6 font-mono text-xs uppercase tracking-[0.16em] text-ink-muted">
+              {site.owner} · {site.location}
+            </p>
+            <h1 className="mt-3 max-w-[18ch] text-[2.75rem] font-semibold leading-[1.08] tracking-tight md:text-[4rem]">
+              {site.tagline}
+            </h1>
+            <p className="mt-6 max-w-[40rem] text-lg text-ink-muted">{site.heroSupport}</p>
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Roles">
+              {site.roles.map((role) => (
+                <li key={role} className="rounded-lg bg-muted px-3 py-1.5 text-sm font-medium text-ink">
+                  {role}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <PrimaryButton href="/projects">Explore Projects</PrimaryButton>
+              <SecondaryButton href="/resume">View Résumé</SecondaryButton>
+            </div>
+          </div>
+          <div className="relative order-first w-36 shrink-0 sm:w-48 md:order-none md:mx-auto md:w-72">
+            <div className="absolute -inset-3 rounded-[2rem] bg-accent/10" aria-hidden />
+            <Image
+              src={site.photo.src}
+              alt={site.photo.alt}
+              width={site.photo.width}
+              height={site.photo.height}
+              priority
+              sizes="(min-width: 768px) 18rem, 16rem"
+              className="relative aspect-square w-full rounded-[1.6rem] border border-line object-cover shadow-[0_20px_50px_-28px_rgba(23,33,43,0.55)]"
+            />
+          </div>
         </div>
       </Section>
 
@@ -37,7 +65,7 @@ export default function HomePage() {
           <div>
             <h2 className="text-[1.75rem] font-semibold tracking-tight">Featured projects</h2>
             <p className="mt-2 text-ink-muted">
-              Selected work documented from the résumé and available source files.
+              Two of them run live on my HomeLab — open them and try.
             </p>
           </div>
           <Link href="/projects" className="shrink-0 text-sm font-medium text-accent">

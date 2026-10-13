@@ -22,7 +22,7 @@ describe("ArchitectureDiagram", () => {
       expect(screen.getAllByText(/Express API/i).length).toBeGreaterThan(0);
       expect(screen.getAllByText(/PostgreSQL/i).length).toBeGreaterThan(0);
       expect(screen.getAllByText(/Redis/i).length).toBeGreaterThan(0);
-      expect(screen.getAllByText(/MinIO/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/SeaweedFS/i).length).toBeGreaterThan(0);
       expect(screen.getAllByText(/Omise Gateway/i).length).toBeGreaterThan(0);
 
       // Verify flow labels

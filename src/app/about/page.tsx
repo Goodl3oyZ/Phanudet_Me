@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Container } from "@/components/ui/Container";
 import { TextLink } from "@/components/ui/TextLink";
@@ -13,7 +14,17 @@ export const metadata = pageMetadata(
 export default function AboutPage() {
   return (
     <Container>
-      <PageHeader eyebrow="About" title={site.owner} description={site.introduction} />
+      <div className="grid items-end gap-8 md:grid-cols-[minmax(0,1fr)_auto]">
+        <PageHeader eyebrow="About" title={site.owner} description={site.introduction} />
+        <Image
+          src={site.photo.src}
+          alt={site.photo.alt}
+          width={site.photo.width}
+          height={site.photo.height}
+          sizes="12rem"
+          className="mb-8 hidden aspect-square w-48 rounded-3xl border border-line object-cover md:block"
+        />
+      </div>
       <div className="max-w-[45rem] space-y-12 pb-16">
         <section>
           <h2 className="text-[1.75rem] font-semibold">Education</h2>

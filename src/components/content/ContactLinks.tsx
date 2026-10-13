@@ -1,4 +1,4 @@
-import { GitFork, Mail } from "lucide-react";
+import { BriefcaseBusiness, GitFork, Mail } from "lucide-react";
 import { site } from "@/content/site";
 
 export function ContactLinks() {
@@ -15,6 +15,13 @@ export function ContactLinks() {
       label: site.contact.github.label,
       detail: "Code and public repositories",
       icon: GitFork,
+      external: true,
+    },
+    {
+      href: site.contact.linkedin.href,
+      label: site.contact.linkedin.label,
+      detail: "Experience and recommendations",
+      icon: BriefcaseBusiness,
       external: true,
     },
   ];

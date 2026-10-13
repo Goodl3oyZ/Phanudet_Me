@@ -52,6 +52,15 @@ export type Architecture = {
   edges: ArchitectureEdge[];
 };
 
+export type ProjectImage = {
+  /** Path under /public, e.g. /images/projects/<slug>/storefront.webp */
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  caption?: string;
+};
+
 export type Decision = {
   title: string;
   body: string;
@@ -79,6 +88,10 @@ export type Project = {
   lessons?: string[];
   evidence?: EvidenceLink[];
   relatedSlugs?: string[];
+  /** Public deployment, when the project runs live. */
+  liveUrl?: string;
+  /** Screenshots; the first one is the cover on cards and the case study. */
+  images?: ProjectImage[];
 };
 
 export type LabExperiment = {

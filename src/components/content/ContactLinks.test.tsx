@@ -3,7 +3,7 @@ import { ContactLinks } from "@/components/content/ContactLinks";
 import { site } from "@/content/site";
 
 describe("ContactLinks", () => {
-  it("exposes verified email and GitHub destinations", () => {
+  it("exposes verified email, GitHub and LinkedIn destinations", () => {
     render(<ContactLinks />);
 
     expect(screen.getByRole("link", { name: new RegExp(site.contact.email) })).toHaveAttribute(
@@ -14,6 +14,10 @@ describe("ContactLinks", () => {
       "href",
       site.contact.github.href,
     );
-    expect(screen.queryByRole("link", { name: /linkedin/i })).not.toBeInTheDocument();
+    // LinkedIn URL taken from the résumé PDF's own hyperlink.
+    expect(screen.getByRole("link", { name: /LinkedIn/ })).toHaveAttribute(
+      "href",
+      site.contact.linkedin.href,
+    );
   });
 });

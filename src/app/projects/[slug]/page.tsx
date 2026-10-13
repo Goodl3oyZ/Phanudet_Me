@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArchitectureDiagram } from "@/components/diagrams/ArchitectureDiagram";
 import { EvidencePanel } from "@/components/project/EvidencePanel";
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: Props) {
   if (!project) {
     return pageMetadata("Project not found", "No case study matches this URL.", "/projects");
   }
-  return pageMetadata(project.title, project.summary, `/projects/${project.slug}`);
+  return pageMetadata(project.title, project.summary, `/projects/${project.slug}`, project.images?.[0]?.src);
 }
 
 function Block({ title, children }: { title: string; children: ReactNode }) {
@@ -44,16 +45,71 @@ export default async function ProjectDetailPage({ params }: Props) {
     notFound();
   }
   const related = getRelatedProjects(project);
+  const [cover, ...gallery] = project.images ?? [];
 
   return (
     <Container>
       <PageHeader eyebrow="Case study" title={project.title} description={project.summary} />
+      {project.liveUrl ? (
+        <p className="-mt-4 mb-8">
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-5 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
+          >
+            Open live site ↗
+          </a>
+        </p>
+      ) : null}
+      {cover ? (
+        <figure className="mb-12">
+          <div className="overflow-hidden rounded-2xl border border-line bg-muted shadow-[0_12px_40px_-24px_rgba(23,33,43,0.45)]">
+            <Image
+              src={cover.src}
+              alt={cover.alt}
+              width={cover.width}
+              height={cover.height}
+              priority
+              sizes="(min-width: 1024px) 64rem, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
+          {cover.caption ? <figcaption className="mt-3 text-sm text-ink-muted">{cover.caption}</figcaption> : null}
+        </figure>
+      ) : null}
       <div className="max-w-[45rem] pb-16">
         <ProjectMetadata project={project} />
 
         <Block title="Overview">
           <p>{project.overview}</p>
         </Block>
+
+        {gallery.length > 0 ? (
+          <Block title="Screenshots">
+            <ul className="grid gap-6">
+              {gallery.map((image) => (
+                <li key={image.src}>
+                  <figure>
+                    <div className="overflow-hidden rounded-xl border border-line bg-muted">
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        sizes="(min-width: 768px) 45rem, 100vw"
+                        className="h-auto w-full"
+                      />
+                    </div>
+                    {image.caption ? (
+                      <figcaption className="mt-2 text-sm text-ink-muted">{image.caption}</figcaption>
+                    ) : null}
+                  </figure>
+                </li>
+              ))}
+            </ul>
+          </Block>
+        ) : null}
 
         {project.problem || project.intendedUsers ? (
           <Block title="Problem and intended users">

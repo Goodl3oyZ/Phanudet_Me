@@ -18,7 +18,8 @@ describe("ProjectFilters", () => {
 
   it("shows an empty state when the filter matches nothing", async () => {
     const user = userEvent.setup();
-    render(<ProjectFilters projects={projects.filter((project) => project.category === "Software")} />);
+    const noInfrastructure = projects.filter((project) => !project.filters.includes("Infrastructure"));
+    render(<ProjectFilters projects={noInfrastructure} />);
 
     await user.click(screen.getByRole("button", { name: "Infrastructure" }));
 

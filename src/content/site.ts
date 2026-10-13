@@ -2,10 +2,19 @@ export const site = {
   brand: "PHANUDET.DEV",
   owner: "Phanudet Sueaphueak",
   tagline: "Building software. Understanding systems.",
+  /** Roles from the résumé, shown under the name. */
+  roles: ["Software Development", "Cloud & DevOps", "AI/ML", "Security"],
+  availability: "Open to entry-level roles in software, cloud, and security",
+  photo: {
+    src: "/images/profile/phanudet.webp",
+    alt: "Portrait of Phanudet Sueaphueak",
+    width: 800,
+    height: 800,
+  },
   introduction:
     "I build software, experiment with machine learning, and explore the infrastructure behind modern applications. My approach combines practical implementation with a focus on system design, technical trade-offs, and continuous learning.",
   heroSupport:
-    "I build software, experiment with machine learning, and explore the infrastructure behind modern applications.",
+    "Computer Engineering graduate who ships full-stack apps end to end, from database and payments to CI/CD, and runs them on a self-hosted HomeLab.",
   location: "Nakhonsawan, Thailand",
   education: {
     school: "Chiang Mai University",
@@ -22,6 +31,10 @@ export const site = {
     github: {
       label: "GitHub",
       href: "https://github.com/Goodl3oyZ",
+    },
+    linkedin: {
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/phanudet-sueaphueak-957757257/",
     },
   },
   resumePdf: {
