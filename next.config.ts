@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // The Engineering Lab page was folded into the HomeLab case study.
+  async redirects() {
+    return [{ source: "/lab", destination: "/projects/homelab", permanent: true }];
+  },
   turbopack: {
     rules: {
       "*.css": {

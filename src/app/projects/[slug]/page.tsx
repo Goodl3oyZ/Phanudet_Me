@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArchitectureDiagram } from "@/components/diagrams/ArchitectureDiagram";
+import { HomeLabDiagram } from "@/components/diagrams/HomeLabDiagram";
 import { VoicePcDiagram } from "@/components/diagrams/VoicePcDiagram";
 import { EvidencePanel } from "@/components/project/EvidencePanel";
 import { ProjectCard } from "@/components/project/ProjectCard";
@@ -155,6 +156,10 @@ export default async function ProjectDetailPage({ params }: Props) {
         {project.customDiagram === "voice-pc-remote" ? (
           <Block title="Architecture">
             <VoicePcDiagram />
+          </Block>
+        ) : project.customDiagram === "homelab" ? (
+          <Block title="Architecture">
+            <HomeLabDiagram />
           </Block>
         ) : project.architecture ? (
           <Block title="Architecture">

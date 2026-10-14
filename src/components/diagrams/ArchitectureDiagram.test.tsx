@@ -32,14 +32,14 @@ describe("ArchitectureDiagram", () => {
   });
 
   it("renders generic layered diagram for other projects", () => {
-    const homelabProject = projects.find((p) => p.slug === "homelab");
-    expect(homelabProject?.architecture).toBeDefined();
+    const gymmate = projects.find((p) => p.slug === "gymmate");
+    expect(gymmate?.architecture).toBeDefined();
 
-    if (homelabProject?.architecture) {
-      render(<ArchitectureDiagram architecture={homelabProject.architecture} />);
+    if (gymmate?.architecture) {
+      render(<ArchitectureDiagram architecture={gymmate.architecture} />);
 
-      expect(screen.getAllByText(/Physical Host/i).length).toBeGreaterThan(0);
-      expect(screen.getAllByText(/Proxmox VE/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/Presentation Tier/i).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(/REST API/i).length).toBeGreaterThan(0);
     }
   });
 });

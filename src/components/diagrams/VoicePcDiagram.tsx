@@ -1,6 +1,4 @@
-import type { ReactNode } from "react";
 import {
-  ArrowDown,
   BrainCircuit,
   Cloud,
   Cpu,
@@ -16,42 +14,7 @@ import {
   Smartphone,
   Sparkles,
 } from "lucide-react";
-
-type Zone = {
-  icon: LucideIcon;
-  title: string;
-  where: string;
-  children: ReactNode;
-};
-
-function ZoneCard({ icon: Icon, title, where, children }: Zone) {
-  return (
-    <div className="rounded-2xl border border-line bg-background p-4 shadow-[0_1px_2px_rgba(23,33,43,0.04)] sm:p-5">
-      <div className="flex items-center gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent text-white">
-          <Icon size={20} aria-hidden />
-        </span>
-        <div className="min-w-0">
-          <p className="font-semibold leading-tight">{title}</p>
-          <p className="text-xs text-ink-muted">{where}</p>
-        </div>
-      </div>
-      <div className="mt-4">{children}</div>
-    </div>
-  );
-}
-
-function Link({ label }: { label: string }) {
-  return (
-    <div className="flex flex-col items-center py-1.5" aria-hidden>
-      <span className="h-3 w-px bg-ink-muted/40" />
-      <span className="rounded-full border border-line bg-surface px-3 py-1 font-mono text-[11px] text-ink-muted">
-        {label}
-      </span>
-      <ArrowDown size={16} className="text-ink-muted/70" />
-    </div>
-  );
-}
+import { Connector, ZoneCard } from "@/components/diagrams/DiagramParts";
 
 const PIPELINE: { icon: LucideIcon; title: string; detail: string }[] = [
   { icon: Fingerprint, title: "Sign-in", detail: "Google allow-list + paired device, CSRF, origin check" },
@@ -106,7 +69,7 @@ export function VoicePcDiagram() {
           </ul>
         </ZoneCard>
 
-        <Link label="HTTPS + WebSocket · Cloudflare Tunnel (no open ports)" />
+        <Connector label="HTTPS + WebSocket · Cloudflare Tunnel (no open ports)" />
 
         <ZoneCard icon={Route} title="PC1 — AI server" where="Proxmox LXC on the HomeLab · FastAPI service (systemd)">
           <ol className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -138,7 +101,7 @@ export function VoicePcDiagram() {
           </ul>
         </ZoneCard>
 
-        <Link label="Signed request · relayed over the agent's outbound WebSocket" />
+        <Connector label="Signed request · relayed over the agent's outbound WebSocket" />
 
         <ZoneCard icon={Laptop} title="PC2 — Windows agent" where="Dials out to PC1 · secret in Windows Credential Manager">
           <div className="grid gap-3 sm:grid-cols-2">

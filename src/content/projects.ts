@@ -369,6 +369,9 @@ export const projects: Project[] = [
       "Writing the design document with test cases and gates first made each phase easy to finish and verify.",
       "Real use finds what tests miss: a library update broke every audio command in production until I decoded audio myself.",
     ],
+    evidence: [
+      { type: "repository", label: "Source code", href: "https://github.com/Goodl3oyZ/VOICE_PC_CONTROL" },
+    ],
     relatedSlugs: ["homelab", "ecommerce-platform"],
   },
   {
@@ -520,6 +523,9 @@ export const projects: Project[] = [
       "Writing the API contract (OpenAPI) early let the web and mobile apps be built in parallel with the backend.",
       "A visible deploy log in chat makes a shared server easier to trust for a whole team.",
     ],
+    evidence: [
+      { type: "repository", label: "Project repository", href: "https://github.com/Goodl3oyZ/492_GYMMATE_FINAL_cpe_project" },
+    ],
     relatedSlugs: ["restaurant-pos", "homelab"],
   },
   {
@@ -610,6 +616,9 @@ export const projects: Project[] = [
       "Designing around each role's job (cashier, chef, owner) mattered more than the number of screens.",
       "Sharing one API client (Axios) and typed responses kept the many pages consistent as the backend changed.",
     ],
+    evidence: [
+      { type: "repository", label: "Frontend repository", href: "https://github.com/Goodl3oyZ/POS_FRONTEND" },
+    ],
     relatedSlugs: ["ecommerce-platform", "gymmate"],
   },
   {
@@ -619,227 +628,231 @@ export const projects: Project[] = [
     filters: ["AI / ML"],
     featured: true,
     summary:
-      "Multilayer perceptron implemented without machine-learning libraries, with backpropagation, genetic algorithms, fuzzy logic, and 10-fold cross-validation on WDBC.",
-    role: "Individual implementer of models, training loops, and evaluation procedure.",
+      "Neural networks written from scratch in NumPy: a backpropagation MLP for flood forecasting and classification, and an MLP trained by a genetic algorithm that reaches 97.5 % accuracy on breast-cancer data.",
+    role: "Individual implementer — models, training loops, experiments, and reports (CPE 261456 Introduction to Computational Intelligence).",
     status: "Academic project",
-    technologies: ["Python", "From-scratch MLP", "Genetic algorithm", "Fuzzy logic"],
-    overview:
-      "Academic machine-learning work implementing a multilayer perceptron without machine-learning libraries. Backpropagation, a genetic algorithm, and fuzzy logic were applied to regression and classification problems. Models were evaluated with 10-fold cross-validation. The genetic algorithm was used to optimize MLP weights for breast cancer classification on the WDBC dataset across five network architectures.",
-    problem:
-      "Library-based model training hides the mechanics of weight updates, evaluation splits, and search. Implementing the network and search methods directly makes those mechanics inspectable.",
-    intendedUsers:
-      "The work is an academic study of model behavior, not a clinical diagnostic product.",
-    implementation: [
-      "MLP implemented from scratch, including forward pass and backpropagation.",
-      "Genetic algorithm used to search MLP weights for WDBC classification.",
-      "Fuzzy logic techniques applied alongside the neural and evolutionary methods.",
-      "10-fold cross-validation used as the evaluation protocol.",
-      "Five network architectures compared on the WDBC classification task.",
+    technologies: ["Python", "NumPy", "From-scratch MLP", "Backpropagation", "Genetic algorithm", "Fuzzy logic"],
+    images: [
+      {
+        src: "/images/projects/mlp-genetic-fuzzy/results.webp",
+        alt: "Two bar charts: GA-trained MLP accuracy on WDBC for five hidden-layer layouts, best 97.5 percent with 32 nodes; and flood-forecast R squared for four settings, best 0.91",
+        width: 1600,
+        height: 1000,
+        caption: "Results from the repositories. The accuracy axis starts at 90 % to show the differences.",
+      },
     ],
-    architecture: {
-      caption:
-        "Data pipeline and model evaluation flow for the MLP, Genetic Algorithm, and Fuzzy Logic experiments.",
-      layers: [
-        { id: "data-prep", label: "Data & Cross-Validation" },
-        { id: "model-core", label: "Model Architecture" },
-        { id: "algorithms", label: "Search & Training Algorithms" },
-        { id: "evaluation", label: "Evaluation & Output" },
-      ],
-      nodes: [
-        {
-          id: "data",
-          label: "WDBC Dataset",
-          detail: "Breast Cancer Data",
-          layerId: "data-prep",
-          icon: "FileText",
-        },
-        {
-          id: "folds",
-          label: "10-Fold CV",
-          detail: "Validation Splits",
-          layerId: "data-prep",
-          icon: "Layers",
-        },
-        {
-          id: "mlp",
-          label: "MLP from Scratch",
-          detail: "Multilayer Perceptron",
-          layerId: "model-core",
-          icon: "Cpu",
-          tags: ["Forward Pass", "Layer Weights"],
-        },
-        {
-          id: "bp",
-          label: "Backpropagation",
-          detail: "Gradient Descent",
-          layerId: "algorithms",
-          icon: "RefreshCw",
-        },
-        {
-          id: "ga",
-          label: "Genetic Algorithm",
-          detail: "Weight Optimization",
-          layerId: "algorithms",
-          icon: "Sparkles",
-        },
-        {
-          id: "fuzzy",
-          label: "Fuzzy Logic",
-          detail: "Rule Inference",
-          layerId: "algorithms",
-          icon: "Sliders",
-        },
-        {
-          id: "eval",
-          label: "Held-Out Evaluation",
-          detail: "Cross-Validated Metrics",
-          layerId: "evaluation",
-          icon: "CheckCircle",
-        },
-      ],
-      edges: [
-        { from: "data", to: "folds", label: "Preprocessed Data" },
-        { from: "folds", to: "mlp", label: "Fold Training" },
-        { from: "mlp", to: "bp", label: "Gradient Updates" },
-        { from: "mlp", to: "ga", label: "Population Search" },
-        { from: "mlp", to: "fuzzy", label: "Feature Logic" },
-        { from: "bp", to: "eval", label: "BP Validation" },
-        { from: "ga", to: "eval", label: "GA Validation" },
-      ],
-    },
+    metrics: [
+      { value: "97.5 %", label: "WDBC accuracy, GA-trained MLP with 32 hidden nodes (±2.1 %, 10-fold CV)" },
+      { value: "0.91", label: "R² forecasting the water level 7 hours ahead (MSE 0.0075)" },
+      { value: "94.4 %", label: "Cross-dataset CV accuracy; 20/20 correct on the held-out test set" },
+    ],
+    overview:
+      "Course assignments where no machine-learning library was allowed for the network. Assignment 1 is a multilayer perceptron with backpropagation and momentum, used for regression (forecasting a river level 7 hours ahead from two stations) and classification (a two-class pattern set). Assignment 3 replaces backpropagation with a genetic algorithm that evolves all the weights of an MLP to classify breast tumours in the Wisconsin Diagnostic Breast Cancer (WDBC) dataset. Fuzzy logic was covered in the same course.",
+    problem:
+      "Library training hides how weights are updated, how data is split, and how a search behaves. Writing every step myself makes those mechanics visible and testable.",
+    intendedUsers: "An academic study of model behaviour, not a clinical diagnostic tool.",
+    implementation: [
+      "MLP forward pass, backpropagation with momentum, and weight initialisation written with NumPy only.",
+      "Flood data: 8 inputs (water level at t−3…t at two stations) predicting t+7; inputs and targets normalised; 10-fold cross-validation over hidden nodes, learning rate, and momentum; reported MSE, MAE, and R².",
+      "Cross data: grid search with 10-fold CV on a 90 % training split, then a final model evaluated on the 10 % hold-out with a confusion matrix.",
+      "Genetic algorithm: one chromosome is the full weight vector; fitness is binary cross-entropy; tournament selection, arithmetic crossover, Gaussian mutation, elitism, and early stop after stagnation.",
+      "WDBC: 30 standardised features, 10-fold stratified CV, five layouts ([8], [16], [32], [16, 8], [32, 16]) compared, results saved as JSON.",
+    ],
+    knowledge: [
+      {
+        area: "Neural networks",
+        items: [
+          "Backpropagation derived and coded by hand, momentum, and the effect of hidden size and learning rate.",
+          "Regression versus classification outputs and their metrics (MSE, MAE, R², accuracy, confusion matrix).",
+        ],
+      },
+      {
+        area: "Evolutionary search",
+        items: [
+          "Encoding network weights as chromosomes and choosing selection, crossover, and mutation operators.",
+          "Why gradient-free training is slower but works when gradients are unavailable.",
+        ],
+      },
+      {
+        area: "Experiment design",
+        items: [
+          "Stratified k-fold cross-validation, hold-out testing, normalisation fitted only on training data, and fixed seeds.",
+          "Reporting mean and standard deviation instead of one lucky run.",
+        ],
+      },
+    ],
     decisions: [
       {
         title: "No ML library for the network",
-        body: "Implementing the MLP directly trades speed and convenience for transparency. Every update rule has to be written and debugged by hand.",
+        body: "Writing the MLP directly trades speed and convenience for transparency; every update rule had to be written and debugged by hand.",
       },
       {
         title: "Cross-validation instead of a single split",
-        body: "10-fold cross-validation reduces dependence on one lucky train/test cut. It does not by itself prove generalization to a clinical population.",
+        body: "10-fold cross-validation reduces dependence on one lucky train/test cut. It still does not prove the model would work on a new clinical population.",
       },
     ],
-    verification: [
-      "Evaluation used 10-fold cross-validation across five architectures on WDBC.",
-      "Accuracy, F1, runtime, and architecture rankings are not published here because reproducible result tables were not available in the portfolio sources.",
-    ],
     limitations: [
-      "Numeric results are omitted until they can be reproduced from source and logged outputs.",
-      "A from-scratch MLP is a teaching implementation, not a substitute for audited medical software.",
+      "The cross-dataset test set has only 20 samples, so 100 % there says little on its own.",
+      "Genetic-algorithm results vary between runs; the numbers are from the saved run in the repository.",
+      "A teaching implementation, not audited medical software.",
     ],
     lessons: [
-      "Weight search via genetic algorithms is easy to describe and expensive to run compared with gradient descent.",
-      "Cross-validation is an evaluation protocol, not a guarantee that a model is ready for real users.",
+      "Hyperparameters mattered more than layout: on the flood data R² moved from 0.31 to 0.91 with hidden nodes, learning rate, and momentum.",
+      "Weight search with a genetic algorithm is easy to describe and expensive to run compared with gradient descent.",
     ],
-    relatedSlugs: ["homelab", "ecommerce-platform"],
+    evidence: [
+      {
+        type: "repository",
+        label: "Backpropagation MLP (flood regression and classification)",
+        href: "https://github.com/Goodl3oyZ/CI_Regression-Classification",
+      },
+      { type: "repository", label: "Genetic algorithm + MLP on WDBC", href: "https://github.com/Goodl3oyZ/CI_GA" },
+    ],
+    relatedSlugs: ["voice-pc-remote", "homelab"],
   },
   {
     slug: "homelab",
     title: "HomeLab and Local AI",
     category: "Infrastructure",
-    filters: ["Infrastructure"],
+    filters: ["Infrastructure", "AI / ML"],
     featured: true,
     summary:
-      "Rebuilt an old PC into a personal lab for Proxmox, virtual machines, containers, self-hosted services, and local AI workloads.",
-    role: "Operator and experimenter on personal hardware.",
+      "An old PC rebuilt as a Proxmox server that runs my live projects and a local LLM on its own GPU, published through Cloudflare Tunnel with Grafana and Dozzle for metrics and logs.",
+    role: "Builder and operator — hardware, virtualization, networking, deployment, and monitoring.",
     status: "Ongoing learning",
     technologies: [
-      "Linux",
       "Proxmox VE",
-      "Docker",
+      "LXC",
+      "Linux",
+      "Docker Compose",
+      "Cloudflare Tunnel",
       "Ollama",
       "Open WebUI",
-      "Nginx",
+      "NVIDIA GPU passthrough",
+      "Prometheus",
+      "Grafana",
+      "Dozzle",
+      "GitHub Actions",
+    ],
+    images: [
+      {
+        src: "/images/projects/homelab/grafana-gpu.webp",
+        alt: "Grafana dashboard for the NVIDIA GeForce GTX 1650 SUPER showing utilization, power, fan, temperature, memory, and clock speeds",
+        width: 1600,
+        height: 761,
+        caption: "GPU metrics in Grafana (Prometheus + nvidia GPU exporter).",
+      },
+      {
+        src: "/images/projects/homelab/proxmox-containers.webp",
+        alt: "Proxmox console in container 102 listing the running Docker containers and the Ollama model loaded 100 percent on the GPU",
+        width: 1515,
+        height: 360,
+        caption: "Containers in LXC 102, and gemma4-e2b loaded 100 % on the GPU with a 16k context.",
+      },
+      {
+        src: "/images/projects/homelab/open-webui.webp",
+        alt: "Open WebUI chat answering a question with the local gemma4-e2b model",
+        width: 1600,
+        height: 761,
+        caption: "Open WebUI chatting with the local model — no cloud AI involved.",
+      },
+      {
+        src: "/images/projects/homelab/dozzle.webp",
+        alt: "Dozzle showing live Ollama logs, with containers grouped into monitoring, voice-pc-control, and webecommerce",
+        width: 1600,
+        height: 761,
+        caption: "Live container logs in Dozzle; the last line shows generation at about 45 tokens per second.",
+      },
+    ],
+    metrics: [
+      { value: "0", label: "Ports opened on the home router — every site arrives through the tunnel" },
+      { value: "4", label: "Public services: the store, Voice PC, the chat UI, and this portfolio" },
+      { value: "~45 tok/s", label: "Local LLM generation speed (gemma4-e2b on a 4 GB GPU)" },
+      { value: "~240 tok/s", label: "Prompt processing speed for the same model" },
     ],
     overview:
-      "An old PC was rebuilt as a personal HomeLab to learn Proxmox, virtual machines, containers, and self-hosted services. Local AI was used to observe how GPU, VRAM, CPU, RAM, and storage interact when running model workloads, and how hardware limits show up as practical constraints.",
+      "My HomeLab started as an old PC rebuilt to learn Proxmox, virtual machines, and containers. Today it is the production server for my own projects: one Proxmox host with a GTX 1650 SUPER passed through to a Linux container that runs the e-commerce store, the Voice PC Remote AI server, a local LLM with a chat UI, monitoring, and this portfolio. Each hostname is published through Cloudflare Tunnel, so the house network opens no ports, and GitHub Actions deploys new versions through a signed webhook.",
     problem:
-      "Cloud dashboards hide the relationship between processes, disks, memory, and GPUs. A small lab makes those relationships visible, including failure modes such as insufficient VRAM or storage pressure.",
+      "Cloud dashboards hide how processes, disks, memory, and GPUs interact. Running real services on my own hardware makes those limits visible — VRAM decides which model fits, RAM decides how many stacks can share a host — and it forces the operational work a demo never needs: deploys, health checks, logs, and recovery.",
     intendedUsers:
-      "Personal learning environment only. It is not offered as a public hosting platform.",
+      "Visitors of the live projects, and me as the operator. It is not offered as a hosting service.",
+    customDiagram: "homelab",
     implementation: [
-      "Proxmox used to run virtual machines and containerized workloads on reused hardware.",
-      "Docker used to package and run self-hosted services.",
-      "Local model serving explored with Ollama and Open WebUI from the technical toolkit.",
-      "Linux used as the primary operating environment for services and troubleshooting.",
-      "Hosts my live projects — the e-commerce store, Voice PC Remote, and this portfolio — published through Cloudflare Tunnel without opening ports, with Grafana and Dozzle for metrics and logs.",
+      "Proxmox VE on reused hardware: virtual machines and LXC containers that can be snapshotted and rebuilt without touching the host.",
+      "GPU passthrough into the LXC so Docker containers (Ollama) can use CUDA; the model runs 100 % on the GPU.",
+      "Each project is its own Docker Compose stack on a private network: the store (Caddy, Next.js, Express, PostgreSQL, Redis, SeaweedFS), the local AI stack (Ollama, Open WebUI), monitoring, and the portfolio.",
+      "Cloudflare Tunnel maps each hostname to a localhost port; databases and model APIs are never exposed.",
+      "Monitoring: Prometheus scrapes an NVIDIA GPU exporter for Grafana dashboards; Dozzle shows live logs for every container.",
+      "Continuous deployment: GitHub Actions tests each push, then calls a webhook on the server with an HMAC signature; the server pulls, rebuilds, and checks health.",
+      "Linux troubleshooting on the way: container health checks, disk and memory pressure, model memory limits, and library updates that broke production.",
     ],
-    architecture: {
-      caption:
-        "Infrastructure topology for personal lab hardware, hypervisor, virtualization, containers, and local AI workloads.",
-      layers: [
-        { id: "hardware", label: "Physical Hardware" },
-        { id: "hypervisor", label: "Virtualization Layer" },
-        { id: "workloads", label: "Guest Workloads" },
-        { id: "ai-services", label: "AI Applications" },
-      ],
-      nodes: [
-        {
-          id: "host",
-          label: "Physical Host",
-          detail: "Reused PC Hardware",
-          layerId: "hardware",
-          icon: "HardDrive",
-          tags: ["CPU", "RAM", "GPU"],
-        },
-        {
-          id: "proxmox",
-          label: "Proxmox VE",
-          detail: "Type-1 Hypervisor",
-          layerId: "hypervisor",
-          icon: "Server",
-          tags: ["VM & Container Host"],
-        },
-        {
-          id: "vm",
-          label: "Linux Guests",
-          detail: "Isolated Virtual Machines",
-          layerId: "workloads",
-          icon: "Terminal",
-        },
-        {
-          id: "docker",
-          label: "Docker Engine",
-          detail: "Container Services",
-          layerId: "workloads",
-          icon: "Box",
-          tags: ["Compose Services"],
-        },
-        {
-          id: "ai",
-          label: "Local AI Stack",
-          detail: "Ollama & Open WebUI",
-          layerId: "ai-services",
-          icon: "Cpu",
-          tags: ["GGUF Models", "Local Inference"],
-        },
-      ],
-      edges: [
-        { from: "host", to: "proxmox", label: "Bare-Metal OS" },
-        { from: "proxmox", to: "vm", label: "Virtual Machines" },
-        { from: "proxmox", to: "docker", label: "Container Engine" },
-        { from: "docker", to: "ai", label: "Local Model Serving" },
-      ],
-    },
+    knowledge: [
+      {
+        area: "Virtualization",
+        items: [
+          "Proxmox VE: VMs versus LXC containers, snapshots, resources per guest.",
+          "NVIDIA GPU passthrough into an LXC and the NVIDIA Container Toolkit for Docker.",
+        ],
+      },
+      {
+        area: "Containers",
+        items: [
+          "Docker Compose stacks with private networks, health checks, volumes, and restart policies.",
+          "Keeping secrets in environment files on the server, never in images or git.",
+        ],
+      },
+      {
+        area: "Networking and security",
+        items: [
+          "Cloudflare Tunnel and DNS: TLS at the edge, no inbound ports, one ingress rule per hostname.",
+          "Binding internal services to localhost; reverse proxy with Caddy; admin access only on the home network.",
+        ],
+      },
+      {
+        area: "Observability",
+        items: [
+          "Prometheus scraping exporters, Grafana dashboards for GPU utilization, power, temperature, and memory.",
+          "Centralised container logs with Dozzle to debug deploys and model behaviour.",
+        ],
+      },
+      {
+        area: "Local AI",
+        items: [
+          "Serving models with Ollama, choosing quantised models that fit 4 GB of VRAM, and measuring tokens per second.",
+          "Open WebUI with OAuth sign-in on top of the same local models.",
+        ],
+      },
+      {
+        area: "Operations",
+        items: [
+          "CI/CD with GitHub Actions and a signed deploy webhook running as a systemd service.",
+          "Rolling forward safely: health checks after each deploy, and fixing production issues from logs.",
+        ],
+      },
+    ],
     decisions: [
       {
-        title: "Reuse hardware instead of renting GPUs first",
-        body: "A local box makes resource exhaustion obvious. It also means experiments are bounded by whatever GPU, RAM, and disks are actually installed.",
+        title: "Own hardware before renting GPUs",
+        body: "A local box makes resource limits obvious and costs nothing per hour. The trade-off is that experiments are bounded by one 4 GB GPU and the RAM in one machine.",
       },
       {
-        title: "Sanitize operational detail",
-        body: "This case study describes architecture and constraints, not private IPs, tunnel hostnames, credentials, or administration endpoints.",
+        title: "A tunnel instead of port forwarding",
+        body: "Cloudflare Tunnel gives HTTPS and hides the home IP without touching the router; the cost is depending on Cloudflare for every public request.",
+      },
+      {
+        title: "One stack per project",
+        body: "Separate Compose projects keep each app's database, cache, and storage isolated, so one deploy or failure does not take the others down.",
       },
     ],
-    verification: [
-      "Verification is operational: guests boot, containers start, and local model UIs respond on the lab network.",
-      "No public uptime, token-throughput, or monitoring screenshots are published because they were not captured as reproducible evidence.",
-    ],
     limitations: [
-      "The lab is a personal environment and will change as hardware and experiments change.",
-      "Tools listed in the résumé skill set (for example Grafana or Tailscale) are not claimed here as a fully documented production observability or remote-access deployment.",
+      "A single host: no high availability, and backups are the only protection against hardware failure.",
+      "Some monitoring containers publish ports on the home network; they are not reachable from the internet.",
+      "The lab keeps changing as hardware and projects change.",
     ],
     lessons: [
-      "Local LLMs make VRAM and context length feel like systems problems, not just model-card footnotes.",
-      "Virtualization helps isolate experiments, but storage and backups still decide whether the lab survives a mistake.",
+      "Local LLMs make VRAM and context length feel like systems problems, not model-card footnotes.",
+      "Monitoring pays for itself the first time a deploy goes wrong at night.",
+      "Virtualization isolates experiments, but backups decide whether the lab survives a mistake.",
     ],
     relatedSlugs: ["ecommerce-platform", "voice-pc-remote"],
   },
@@ -874,27 +887,89 @@ export const projects: Project[] = [
   },
   {
     slug: "skill-bridge",
-    title: "Skill Bridge",
+    title: "SkillBridge",
     category: "Team Projects",
     filters: ["Team Projects", "Software"],
     featured: false,
     summary:
-      "Employment-oriented product work inspired by JobDB, focused on accessibility for people with disabilities.",
-    role: "Project owner — requirements gathering and product direction.",
+      "Job platform that connects people with disabilities, the elderly, and other vulnerable groups with employers — job search with filters, applications and tracking, and employer posting with admin approval.",
+    role: "Product owner — stakeholder requirements, product backlog, and sprint planning in a Scrum team.",
     status: "Team project",
-    technologies: [],
+    technologies: [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Mantine",
+      "TipTap",
+      "Node.js",
+      "Express",
+      "Drizzle ORM",
+      "PostgreSQL",
+      "Zod",
+      "Docker",
+      "Nginx",
+    ],
+    images: [
+      {
+        src: "/images/projects/skill-bridge/cover.webp",
+        alt: "SkillBridge home page: welcome to SkillBridge, a job board for specific groups that promotes equality",
+        width: 1440,
+        height: 900,
+        caption: "Home page: start searching for jobs or for employees.",
+      },
+      {
+        src: "/images/projects/skill-bridge/find-jobs.webp",
+        alt: "Job search page with filters for job type, salary range, work days, hours, and location",
+        width: 1440,
+        height: 900,
+        caption: "Job search with filters for type, salary, days, hours, and location (no demo jobs loaded).",
+      },
+      {
+        src: "/images/projects/skill-bridge/employer-dashboard.webp",
+        alt: "Employer dashboard with quick actions to post a job, find applicants, and track applications",
+        width: 1440,
+        height: 900,
+        caption: "Employer dashboard: post jobs, find applicants, and track applications.",
+      },
+      {
+        src: "/images/projects/skill-bridge/sign-up.webp",
+        alt: "Job seeker sign-up form with Google sign-up",
+        width: 1440,
+        height: 900,
+        caption: "Separate sign-up for job seekers and employers, with Google sign-in.",
+      },
+    ],
     overview:
-      "Skill Bridge was a team product effort inspired by JobDB. It was specifically designed to improve employment opportunities and accessibility for people with disabilities. I worked as project owner, gathering and analyzing requirements from stakeholders to define product direction.",
+      "SkillBridge is a specialised job board for vulnerable groups — people with disabilities, the elderly, and others who struggle on general job sites. It gives them a dedicated, supportive place to find work, and shows employers what they gain by hiring from these groups, such as tax deductions and corporate social responsibility goals. The team worked in Scrum sprints with a shared Notion workspace for the backlog, milestones, and meetings.",
     problem:
-      "General job boards are not automatically usable or relevant for people with disabilities. The project started from that accessibility gap rather than from a generic marketplace clone.",
-    intendedUsers: "People with disabilities seeking employment, plus stakeholders who defined requirements.",
+      "General job boards are not designed for these groups: postings are not inclusive, stigma discourages applicants, and employers who want to hire them have no simple channel.",
+    intendedUsers:
+      "Job seekers from vulnerable groups, employers (individuals and companies), and administrators who approve employer accounts.",
     teamContribution:
-      "My verified contribution is product ownership: stakeholder requirements and product direction. Implementation ownership by other teammates is not itemized here.",
+      "As product owner I gathered and analysed requirements, turned them into the product backlog, and set priorities for each sprint. Teammates implemented the frontend and the backend.",
+    implementation: [
+      "Job seekers: sign up (including Google), search jobs with filters, view details, apply, and track applications.",
+      "Employers: register as an individual or a company, post jobs with a rich-text editor, find applicants, and track who applied.",
+      "Admin approval of new employer accounts before they can post.",
+      "Skill and job categories used to match job seekers with suitable posts.",
+      "REST API in Express with Zod validation, sessions, and Helmet; PostgreSQL schema and migrations with Drizzle ORM; Docker Compose and Nginx for deployment.",
+      "Git Flow (main, develop, feature branches) and two sprints with milestones tracked in Notion.",
+    ],
     limitations: [
-      "No public repository, screenshots, or stack list was available in the portfolio sources, so those sections are omitted.",
+      "The class deployment is no longer online; the screenshots come from the frontend built locally without data.",
     ],
     lessons: [
-      "Requirements work is part of engineering: accessibility goals have to be explicit before interface or data-model decisions.",
+      "Requirements work is engineering: accessibility goals have to be explicit before interface or data-model decisions.",
+      "A clear backlog with priorities is what lets a student team ship in short sprints.",
+    ],
+    evidence: [
+      { type: "repository", label: "Frontend repository", href: "https://github.com/XQEX/se_frontend" },
+      { type: "repository", label: "Backend repository", href: "https://github.com/Lolorpof/SE_backend-db" },
+      {
+        type: "documentation",
+        label: "Project workspace (Notion)",
+        href: "https://cake-trampoline-cee.notion.site/SkillBridge-010127d3320c48dc824a392dacae576b",
+      },
     ],
     relatedSlugs: ["edverra", "gymmate"],
   },
@@ -905,25 +980,67 @@ export const projects: Project[] = [
     filters: ["Software"],
     featured: false,
     summary:
-      "Assembly-to-machine translator with a behavioral simulator, plus an ESP32 Useless Box for hardware and software integration.",
-    role: "Individual implementer of translator, simulator, and embedded prototype.",
+      "The (Un)useless Box — a stress-relief toy built from logic gates, a 555 timer, and DC motors — plus an assembly-to-machine-code translator with a behavioural simulator.",
+    role: "Team member on the Useless Box (four students); individual implementer of the translator and simulator.",
     status: "Academic project",
-    technologies: ["Assembly", "Machine code simulation", "ESP32"],
+    technologies: ["Digital logic", "7404 / 7408 logic ICs", "555 timer", "Motor driver IC", "State diagrams", "Assembly", "Machine code simulation"],
+    images: [
+      {
+        src: "/images/projects/systems-embedded/unuseless-box.webp",
+        alt: "Wooden Useless Box with two toggle switches, a row of red and green LEDs, and a lid with an arm inside",
+        width: 1200,
+        height: 1053,
+        caption: "The (Un)useless Box: flip a switch and an arm comes out to switch it back off.",
+      },
+    ],
     overview:
-      "Two related learning projects: an Assembly-to-machine translator and behavioral simulator supporting arithmetic operations and recursive functions, and an ESP32-based Useless Box used to explore IoT and embedded systems. Together they cover program execution, low-level computation, hardware-software integration, and sensor/actuator control.",
+      "The (Un)useless Box was built for 261212 Logic and Digital Circuits Lab (semester 1/2023, Computer Engineering, Chiang Mai University). It is a fidget toy for students: flip a switch and an arm pops out of the box to flip it back. There are three behaviours — left switch, right switch, or both at once, which makes the LEDs blink until one switch is turned off. The control is built from logic gates and a 555 timer rather than a microcontroller. A second project, an assembly-to-machine-code translator with a behavioural simulator, covers the same layers from the software side.",
     problem:
-      "High-level languages hide instruction encoding, call stacks, and the timing of sensors and actuators. Small translators and embedded toys make those layers concrete.",
+      "Students under long study sessions reach for their phones to relax. Repetitive, physical actions like flipping a switch relieve stress, so the goal was a toy that replaces screen time — and a way to practise logic design on real hardware.",
+    teamContribution:
+      "The Useless Box was a four-person team project; design, wiring, and the enclosure were shared. The translator and simulator were individual work.",
     implementation: [
-      "Translator from assembly to machine representation.",
-      "Behavioral simulator with arithmetic operations and recursive functions.",
-      "ESP32 Useless Box combining sensing and actuation.",
+      "State diagrams first: one for the motor and one for each toggle switch and the LEDs, then turned into gate logic.",
+      "7404 (NOT) and 7408 (AND) gates decide which switch is on; limit switches stop the arm at each end.",
+      "Two 6 V DC gear motors through a motor-driver IC; a 555 timer with a capacitor drives the blinking LEDs.",
+      "Prototyped on breadboards, then built into a wooden enclosure for a total material cost of 692 baht.",
+      "Translator from assembly to machine code, and a behavioural simulator that runs arithmetic and recursive functions.",
+    ],
+    knowledge: [
+      {
+        area: "Digital logic",
+        items: [
+          "Turning behaviour into state diagrams, truth tables, and gate circuits.",
+          "Timing with a 555 astable circuit; debouncing and end-stops with limit switches.",
+        ],
+      },
+      {
+        area: "Hardware integration",
+        items: [
+          "Driving DC motors through a driver IC from logic-level signals, and powering motors and logic from batteries.",
+        ],
+      },
+      {
+        area: "Computer architecture",
+        items: [
+          "Instruction encoding, registers, the call stack, and recursion at the machine level.",
+        ],
+      },
     ],
     limitations: [
-      "Source repositories and measurement logs were not included in the portfolio evidence set.",
+      "The box should finish its action before the next press; pressing mid-move can confuse the sequence.",
+      "Source code and measurement logs for the translator are not published.",
     ],
     lessons: [
-      "Recursion is easier to write than to watch at the machine level, where stack growth is explicit.",
-      "Embedded demos fail in physical ways (wiring, timing) that software tests do not capture.",
+      "Hardware fails in physical ways — wiring, timing, power — that a simulation does not show.",
+      "Recursion is easy to write and much harder to watch at the machine level, where the stack is explicit.",
+    ],
+    evidence: [
+      {
+        type: "article",
+        label: "Project write-up (teammate's site)",
+        href: "https://autsaa.top/projects/the_unuseless_box/",
+      },
     ],
     relatedSlugs: ["mlp-genetic-fuzzy", "homelab"],
   },

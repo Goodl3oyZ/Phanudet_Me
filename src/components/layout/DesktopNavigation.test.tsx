@@ -11,7 +11,7 @@ describe("DesktopNavigation", () => {
 
     expect(screen.getByRole("navigation", { name: "Primary" })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Projects" })).toHaveAttribute("aria-current", "page");
-    expect(screen.getByRole("link", { name: "Engineering Lab" })).toHaveAttribute("href", "/lab");
+    expect(screen.queryByRole("link", { name: "Engineering Lab" })).not.toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Notes" })).toHaveAttribute("href", "/notes");
     expect(screen.getByRole("link", { name: "About" })).toHaveAttribute("href", "/about");
   });

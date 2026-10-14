@@ -114,25 +114,9 @@ export type Project = {
   /** Knowledge and skills the project applied, grouped by area. */
   knowledge?: KnowledgeArea[];
   /** A hand-drawn diagram used instead of the generic layered one. */
-  customDiagram?: "voice-pc-remote";
+  customDiagram?: "voice-pc-remote" | "homelab";
 };
 
-export type LabExperiment = {
-  slug: string;
-  title: string;
-  category?: string;
-  summary?: string;
-  engineeringFocus?: string;
-  technologies?: string[];
-  objective: string;
-  architecture: string;
-  components: string[];
-  configuration: string[];
-  constraints: string[];
-  verification: string[];
-  limitations: string[];
-  evidence: string[];
-};
 
 export type NoteCategory =
   | "Docker and CI/CD"
