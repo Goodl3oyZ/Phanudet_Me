@@ -7,8 +7,8 @@ import { Container } from "@/components/ui/Container";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-background/95 backdrop-blur-sm">
-      <Container className="relative flex min-h-16 items-center justify-between gap-4">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur-sm">
+      <Container className="relative flex h-16 items-center justify-between gap-4">
         <Link
           href="/"
           className="font-mono text-sm font-semibold tracking-[0.08em] text-ink"

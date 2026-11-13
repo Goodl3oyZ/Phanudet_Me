@@ -38,3 +38,11 @@ test("mobile navigation opens and reaches About", async ({ page }) => {
   await page.getByRole("navigation", { name: "Mobile" }).getByRole("link", { name: "About" }).click();
   await expect(page.getByRole("heading", { name: "Phanudet Sueaphueak" })).toBeVisible();
 });
+
+test("header stays on screen after scrolling to the bottom on mobile", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+  await expect(page.getByRole("banner")).toBeInViewport();
+  await expect(page.getByRole("link", { name: "PHANUDET.DEV" })).toBeVisible();
+});

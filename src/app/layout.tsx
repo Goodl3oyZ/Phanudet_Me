@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
@@ -17,6 +17,12 @@ const geistMono = Geist_Mono({
 });
 
 const siteUrl = getSiteUrl();
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   metadataBase: siteUrl ? new URL(siteUrl) : undefined,
@@ -41,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-background font-sans text-ink">
+      <body className="flex min-h-full flex-col bg-background pt-[calc(var(--header-height)+env(safe-area-inset-top))] font-sans text-ink">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
