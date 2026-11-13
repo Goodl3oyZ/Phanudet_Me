@@ -7,11 +7,11 @@ import { Container } from "@/components/ui/Container";
 
 export function SiteHeader() {
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background/95 pt-[env(safe-area-inset-top)] backdrop-blur-sm">
-      <Container className="relative flex h-16 items-center justify-between gap-4">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line/80 bg-background">
+      <Container className="relative flex h-[var(--header-height)] items-center justify-between gap-3">
         <Link
           href="/"
-          className="font-mono text-sm font-semibold tracking-[0.08em] text-ink"
+          className="truncate font-mono text-[13px] font-semibold tracking-[0.14em] text-ink md:text-sm md:tracking-[0.08em]"
         >
           {site.brand}
         </Link>

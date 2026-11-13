@@ -4,8 +4,7 @@ import { useEffect, useId, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { navItems, site } from "@/content/site";
-import { IconButton } from "@/components/ui/IconButton";
+import { navItems } from "@/content/site";
 
 export function MobileNavigation() {
   const [open, setOpen] = useState(false);
@@ -35,45 +34,49 @@ export function MobileNavigation() {
 
   return (
     <div className="md:hidden">
-      <IconButton
-        label={open ? "Close menu" : "Open menu"}
+      <button
+        type="button"
+        className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-full text-ink transition-colors hover:bg-muted"
+        aria-label={open ? "Close menu" : "Open menu"}
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
-      </IconButton>
+        {open ? <X size={22} strokeWidth={1.75} aria-hidden /> : <Menu size={22} strokeWidth={1.75} aria-hidden />}
+      </button>
       {open ? (
         <div
           id={panelId}
-          className="absolute inset-x-0 top-full z-40 border-b border-line bg-background shadow-sm"
+          className="fixed inset-x-0 top-[var(--header-height)] bottom-0 z-40 overflow-y-auto bg-background"
         >
-          <nav aria-label="Mobile" className="flex flex-col px-5 py-4">
-            {navItems.map((item) => {
-              const active =
-                pathname === item.href || pathname.startsWith(`${item.href}/`);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={close}
-                  className={`min-h-11 rounded-lg px-3 py-3 text-base ${
-                    active ? "bg-muted font-medium" : "text-ink"
-                  }`}
-                  aria-current={active ? "page" : undefined}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+          <nav aria-label="Mobile" className="flex min-h-full flex-col px-5 pb-8 pt-4">
+            <ul className="flex flex-col">
+              {navItems.map((item) => {
+                const active =
+                  pathname === item.href || pathname.startsWith(`${item.href}/`);
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={close}
+                      className={`flex min-h-14 items-center border-b border-line text-[1.05rem] ${
+                        active ? "font-semibold text-ink" : "font-medium text-ink"
+                      }`}
+                      aria-current={active ? "page" : undefined}
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
             <Link
               href="/contact"
               onClick={close}
-              className="mt-3 inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-5 text-sm font-medium text-white hover:bg-accent-hover"
+              className="mt-6 inline-flex min-h-12 items-center justify-center rounded-full bg-accent px-5 text-sm font-medium text-white"
             >
               Contact
             </Link>
-            <p className="mt-4 px-3 text-xs text-ink-muted">{site.brand}</p>
           </nav>
         </div>
       ) : null}

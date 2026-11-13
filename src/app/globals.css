@@ -9,7 +9,13 @@
   --accent: #243a30;
   --accent-hover: #1b2c25;
   --line: #dce3ea;
-  --header-height: 4rem;
+  --header-height: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: 4rem;
+  }
 }
 
 @theme inline {

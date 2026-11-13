@@ -21,7 +21,7 @@ const siteUrl = getSiteUrl();
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  viewportFit: "cover",
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-background pt-[calc(var(--header-height)+env(safe-area-inset-top))] font-sans text-ink">
+      <body className="flex min-h-full flex-col bg-background pt-[var(--header-height)] font-sans text-ink">
         <a href="#main" className="skip-link">
           Skip to content
         </a>
