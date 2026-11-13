@@ -867,6 +867,15 @@ export const projects: Project[] = [
     role: "Software development team lead — system design and technical direction.",
     status: "Team project",
     technologies: [],
+    images: [
+      {
+        src: "/images/projects/edverra/EdVerra.jpg",
+        alt: "EdVerra home page with a banner and a list of courses",
+        width: 700,
+        height: 400,
+        caption: "EdVerra home page with a banner and a list of courses",
+      },
+    ],
     overview:
       "EdVerra was a team software project. I led the software development team and was responsible for system design and technical direction. The work strengthened the habit of identifying real pain points, deciding where AI can add value, and rejecting AI when a simpler approach is more practical.",
     problem:

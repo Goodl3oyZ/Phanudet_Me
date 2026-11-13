@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArchitectureDiagram } from "@/components/diagrams/ArchitectureDiagram";
@@ -40,7 +40,43 @@ function Block({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-export default async function ProjectDetailPage({ params }: Props) {
+function ProjectDetailSkeleton() {
+  return (
+    <Container>
+      <div className="animate-pulse pb-16">
+        <span className="sr-only">Loading project…</span>
+        <div className="space-y-4 py-10" aria-hidden="true">
+          <div className="h-3 w-24 rounded bg-muted" />
+          <div className="h-10 w-3/4 max-w-xl rounded bg-muted" />
+          <div className="h-4 w-full max-w-xl rounded bg-muted" />
+          <div className="h-4 w-2/3 max-w-lg rounded bg-muted" />
+        </div>
+        <div
+          className="mb-12 aspect-video w-full rounded-2xl border border-line bg-muted"
+          aria-hidden="true"
+        />
+        <div className="max-w-[45rem] space-y-3" aria-hidden="true">
+          <div className="h-7 w-40 rounded bg-muted" />
+          <div className="h-4 w-full rounded bg-muted" />
+          <div className="h-4 w-full rounded bg-muted" />
+          <div className="h-4 w-4/5 rounded bg-muted" />
+        </div>
+      </div>
+    </Container>
+  );
+}
+
+// The page itself never reads `params`. It only passes the promise down,
+// so everything outside <Suspense> stays shareable across all project links.
+export default function ProjectDetailPage({ params }: Props) {
+  return (
+    <Suspense fallback={<ProjectDetailSkeleton />}>
+      <ProjectDetail params={params} />
+    </Suspense>
+  );
+}
+
+async function ProjectDetail({ params }: Props) {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) {
